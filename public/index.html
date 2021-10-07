@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Person Databasen</title>
+</head>
+<body>
+<div id="all-content" style="display: none;">
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+  <li class="nav-item" role="presentation">
+    <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Velkommen</button>
+  </li>
+  <li class="nav-item" role="presentation">
+    <button class="nav-link" id="all-tab" data-bs-toggle="tab" data-bs-target="#all" type="button" role="tab" aria-controls="profile" aria-selected="false">Alle personer</button>
+  </li>
+  <li class="nav-item" role="presentation">
+    <button class="nav-link disabled" id="new-tab" data-bs-toggle="tab" data-bs-target="#new" type="button" role="tab" aria-controls="contact" aria-selected="false">Opret ny person</button>
+  </li>
+  <li class="nav-item" role="presentation">
+    <button class="nav-link disabled" id="edit-tab" data-bs-toggle="tab" data-bs-target="#edit" type="button" role="tab" aria-controls="contact" aria-selected="false">Se hobbies</button>
+  </li>
+</ul>
+<div class="container-fluid">
+  <div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+      <div class="d-flex justify-content-center" style="padding-top: 20px">
+      <h1>Velkommen</h1>
+      </div>
+      <div class="d-flex justify-content-center">
+      <div class="lead">Denne frontend er udviklet af Thomas Schwencke Overgaard</div>
+      </div>
+    </div>
+    <div class="tab-pane fade" id="all" role="tabpanel" aria-labelledby="all-tab">
+      <div class="d-flex justify-content-center" style="padding-top: 20px">
+      <h1>Alle personer i databasen</h1>
+      </div>
+      <div class="d-flex p-2 justify-content-center" style="min-height: 200px;">
+
+        <table class="table" style="width: 50%">
+          <thead>
+          <tr>
+            <td>ID</td>
+            <td>First Name</td>
+            <td>Last name</td>
+            <td>Email</td>
+            <td></td>
+<!--            <td>Hobby</td>&lt;!&ndash;concat the data from description &ndash;&gt;-->
+<!--            <td>Street</td>-->
+<!--            <td>Zip</td>-->
+<!--            <td>City</td>-->
+          </tr>
+          </thead>
+          <tbody id="tbody"></tbody>
+        </table>
+      </div>
+      <div class="d-flex justify-content-center">
+        <button class="btn-outline-dark">Hent nye rækker</button>
+      </div>
+    </div>
+    <div class="tab-pane fade" id="new" role="tabpanel" aria-labelledby="new-tab">Opret ny Person</div>
+  </div>
+
+
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div id="header" class="modal-header">
+
+        </div>
+        <div class="modal-body">
+          <input type="hidden" id="id">
+          <div class="form-group">
+            <label for="fnamei">First Name</label>
+            <input type="text" class="form-control" id="fnamei">
+          </div>
+          <div class="form-group">
+            <label for="lnamei">Last Name</label>
+            <input type="text" class="form-control" name="lname" id="lnamei">
+          </div>
+          <div class="form-group">
+            <label for="phonei">Phone</label>
+            <input type="text" class="form-control" name="phone" id="phonei">
+          </div>
+          <div class="form-group">
+            <label for="Streeti">Street</label>
+            <input type="text" class="form-control" name="Street" id="streeti">
+          </div>
+          <div class="form-group">
+            <label for="Zipi">Zip</label>
+            <input type="text" class="form-control" name="Zip" id="zipi">
+          </div>
+          <div class="form-group">
+            <label for="Cityi">City</label>
+            <input type="text" class="form-control" name="City" id="cityi">
+          </div>
+
+
+          <!-- Allow form submission with keyboard without duplicating the dialog button -->
+          <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+          <button type="button" id="savebtn" class="btn btn-primary" data-dismiss="modal">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+  <!-- EDITModal -->
+  <div class="modal fade" id="myEditModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div id="editHeader" class="modal-header">
+
+        </div>
+        <div class="modal-body">
+          <input type="hidden" id="editId">
+          <input type="hidden" id="useride">
+          <input type="hidden" id="addresside">
+          <input type="hidden" id="addinfoe">
+          <input type="hidden" id="phoneide">
+          <input type="hidden" id="hobbyide">
+          <input type="hidden" id="numberdesce">
+          <input type="hidden" id="hobbydesce">
+          <input type="hidden" id="numbere">
+          <input type="hidden" id="hobbynamee">
+          <div class="form-group">
+            <label for="fnamei">First Name</label>
+            <input type="text" class="form-control" id="fnamee">
+          </div>
+          <div class="form-group">
+            <label for="lnamei">Last Name</label>
+            <input type="text" class="form-control" name="lname" id="lnamee">
+          </div>
+          <div class="form-group">
+            <label for="emaile">Email</label>
+            <input type="text" class="form-control" name="email" id="emaile">
+          </div>
+          <div class="form-group">
+            <label for="Streeti">Street</label>
+            <input type="text" class="form-control" name="Street" id="streete">
+          </div>
+          <div class="form-group">
+            <label for="Zipi">Zip</label>
+            <input type="text" class="form-control" name="Zip" id="zipe">
+          </div>
+          <div class="form-group">
+            <label for="Cityi">City</label>
+            <input type="text" class="form-control" name="City" id="citye">
+          </div>
+
+
+          <!-- Allow form submission with keyboard without duplicating the dialog button -->
+          <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal" data-bs-toggle="modal">Cancel</button>
+          <button type="button" id="savechangebtn" class="btn btn-primary" data-dismiss="modal"> Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="d-flex justify-content-center">
+  <div class="nav-item" id="errormsg" style="color: red; display: none"></div>
+  </div>
+</div>
+</body>
+
+</html>
