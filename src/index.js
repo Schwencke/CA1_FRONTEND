@@ -5,7 +5,7 @@ import "bootstrap/dist/css/bootstrap.css"
 import userFacade from "./userFacade";
 
 //show page when JS is loaded and ready
-document.getElementById("all-content").style = "display:block"
+document.getElementById("all-content").style.display = "block"
 var phones = []
 var hobbies = []
 
@@ -65,13 +65,8 @@ function makeTable(content, table){
                     e.preventDefault()
                     userFacade.deleteUser(user.id)
                         .then()
-                        document.getElementById("errormsg").style = "color:green"
-                        document.getElementById("errormsg").innerText = "SUCSESS! - Brugeren med id: " + user.id + " blev fjernet"
+                        displayGoodMessage("SUCSESS! - Brugeren med id: " + user.id + " blev fjernet")
                         document.getElementById("row"+user.id).remove()
-
-
-
-
                 })
                 editLink.addEventListener('click',e => {
                     content
@@ -85,12 +80,6 @@ function makeTable(content, table){
                             document.getElementById('addinfoe').value = user.address.additionalInfo,
                             document.getElementById('zipe').value = user.address.zipCode,
                             document.getElementById('citye').value = user.address.city,
-                            // document.getElementById('phoneide').value = user.phones.id,
-                            // document.getElementById('numbere').value = user.phones.number,
-                            // document.getElementById('numberdesce').value = user.phones.description,
-                            //document.getElementById('hobbyide').value = user.hobbies.map(),
-                            // document.getElementById('hobbynamee').value = user.hobbies.name,
-                            // document.getElementById('hobbydesce').value = user.hobbies.description
                         )
                 })
             })
@@ -141,6 +130,21 @@ document.getElementById("savechangebtn").addEventListener('click', e =>{
         //     })
 })
 
+let hobb_select = document.getElementById("hobbydd")
+let hobbydescdd_select = document.getElementById("hobbydescdd")
+userFacade.getHobbies().then(hobs => {
+    hobs.forEach((element) => {
+        let option_elm = document.createElement('option')
+        // let value_elm = document.createElement('input')
+        // value_elm.setAttribute("id", "hobby"+element[0])
+        // value_elm.style.display = "hidden"
+        // value_elm.value = element[0]
+        option_elm.textContent = element
+        hobb_select.appendChild(option_elm)
+    })
+})
+
+
 function makeTableForSingleEntry(content, table){
     content
         .then(user => {
@@ -155,29 +159,58 @@ function makeTableForSingleEntry(content, table){
         })
 }
 
-
-document.getElementById("savebtn").addEventListener('click', e => {
+document.getElementById("newPersonBTN").addEventListener('click', e => {
     e.preventDefault()
-    let fName = document.getElementById('fnamei').value
-    let lName = document.getElementById('lnamei').value
-    let phone = document.getElementById('phonei').value
-    let street = document.getElementById('streeti').value
-    let zip = document.getElementById('zipi').value
-    let city = document.getElementById('cityi').value
+
+    let fName = document.getElementById('newFirstname').value
+    let lName = document.getElementById('newLastname').value
+    let email = document.getElementById('newEmail').value
+    let street = document.getElementById('newStreet').value
+    let adraddinfo = document.getElementById('newAddinfo').value
+    let zip = document.getElementById('newZipcode').value
+    let city = document.getElementById('newCity').value
+    let phonenumber = document.getElementById('newPhone').value
+    let numberdesc = document.getElementById('newPhonedesc').value
+    let hobbyid = document.getElementById('hobbydd').value
+   // let hobbyname = document.getElementById('hobbynamee').value
+   // let hobbydesc = document.getElementById('hobbydesce').value
 
     let newUserObj =
         {
             fName: fName,
             lName: lName,
-            phone: phone,
-            srt: street,
-            zp: zip,
-            ct: city
+            email: email,
+            address: {
+                street: street,
+                additionalInfo: adraddinfo,
+                zipCode: zip,
+                city: city
+            },
+            phones:[{
+                number: phonenumber,
+                description:numberdesc
+            }],
+            hobbies:[{
+                id: hobbyid[0]
+            }],
         }
+
     userFacade.addUser(newUserObj)
+        .then(user => {
+            displayGoodMessage("Brugeren blev oprettet og fik ID: " + user.id)
+            document.getElementById('newFirstname').value = ""
+            document.getElementById('newLastname').value = ""
+            document.getElementById('newEmail').value = ""
+            document.getElementById('newStreet').value = ""
+            document.getElementById('newAddinfo').value = ""
+            document.getElementById('newZipcode').value = ""
+            document.getElementById('newCity').value = ""
+            document.getElementById('newPhone').value = ""
+            document.getElementById('newPhonedesc').value = ""
+        })
         .catch(err => {
             if(err.status){
-                err.fullError.then(e => console.log(e.msg))
+                console.log(err.msg)
             }
             else {console.log("Network Error")}
         })
@@ -188,7 +221,18 @@ document.getElementById("savebtn").addEventListener('click', e => {
 const usertable = document.getElementById("tbody")
 makeTable(userFacade.getUsers(), usertable)
 
+document.getElementById("refresh").addEventListener('click', e => {
+    makeTable(userFacade.getUsers(), usertable)
+    displayGoodMessage("rækkerne blev opdateret")
 
+})
+
+function displayGoodMessage(msg){
+    document.getElementById("errormsg").textContent = msg
+    document.getElementById("errormsg").style.display = "block"
+    document.getElementById("errormsg").style.color = "green"
+    setTimeout(function (){document.getElementById("errormsg").style.display = "none"}, 2000)
+}
 //
 // makeTable(userFacade.getUsers(), usertable)
 

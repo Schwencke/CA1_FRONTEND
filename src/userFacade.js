@@ -28,6 +28,18 @@ function getUser(id){
         .then(res => res.json())
 }
 
+function getHobbies(){
+    const options = makeOptions("GET")
+    return fetch(URL+"hobby", options)
+        .then(handleHttpErrors)
+}
+
+function getCities(){
+    const options = makeOptions("GET")
+    return fetch(URL+"cities", options)
+        .then(handleHttpErrors)
+}
+
 function addUser(user){
     const options = makeOptions("POST",user)
     return fetch(URL, options)
@@ -58,6 +70,8 @@ const userFacade = {
     getUsers,
     getUser,
     addUser,
+    getHobbies,
+    getCities,
     editUser,
     deleteUser
 }
